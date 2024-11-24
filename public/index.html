@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Top 10 Players</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: black;
+            color: aliceblue;
+            font-family: "Roboto", sans-serif;
+        }
+        #charts {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Top 10 IPL Players</h1>
+    
+    <div id="charts">
+        <!-- Containers for each chart -->
+        <div id="chart-container"></div>
+    </div>
+    
+    <script>
+        const seasons = [2024, 2023, 2022, 2021, 2020];
+
+        // Fetch data for each season and render charts
+        seasons.forEach(season => {
+            fetch(`/api/data/${season}`)
+                .then(response => response.json())
+                .then(data => {
+                    const labels = data.map(player => player.Player);
+                    const runs = data.map(player => player.Runs);
+                    const sixes = data.map(player => player.Sixes);
+                    const fours = data.map(player => player.Fours);
+                    const hundreds = data.map(player => player.Hundreds);
+                    const fifties = data.map(player => player.Fifties);
+
+                    const container = document.getElementById('chart-container');
+                    
+                    // Create a new div for each chart with a heading
+                    const chartDiv = document.createElement('div');
+                    chartDiv.style.textAlign = 'center';
+                    
+                    const heading = document.createElement('h2');
+                    heading.textContent = `Season ${season}`;
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.id = `chart${season}`;
+                    canvas.width = 600;
+                    canvas.height = 250;
+                    
+                    chartDiv.appendChild(heading);
+                    chartDiv.appendChild(canvas);
+                    container.appendChild(chartDiv);
+                    
+                    const ctx = canvas.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Runs',
+                                    data: runs,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Sixes',
+                                    data: sixes,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Fours',
+                                    data: fours,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Fifties',
+                                    data: fifties,
+                                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                    borderColor: 'rgba(255, 159, 64, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Hundreds',
+                                    data: hundreds,
+                                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                    borderColor: 'rgba(153, 102, 255, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+        });
+    </script>
+</body>
+</html>

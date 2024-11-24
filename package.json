@@ -1,0 +1,35 @@
+{
+  "name": "ipl_scrape",
+  "version": "1.0.0",
+  "description": "Creating an overview of an IPL project involving data scraping and visualization",
+  "main": "index.js",
+ "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "node index.js"
+},
+  "keywords": [
+    "Ipl",
+    "Orange",
+    "Cap",
+    "4's",
+    "6's",
+    "50's",
+    "Century",
+    "Wickets"
+  ],
+  "author": "Ratnakar Giri",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^4.4.4",
+    "express": "^4.19.2",
+    "puppeteer": "^23.1.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "babel-loader": "^9.1.3",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
